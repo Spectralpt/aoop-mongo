@@ -6,6 +6,7 @@
 </script>
 
 <div class="bg-gray-800 w-screen min-h-screen p-4">
+    <div class="text-gray-200 text-4xl font-bold">Movies</div>
     {#if data.moviesByGenres && Object.keys(data.moviesByGenres).length > 0}
         {#each Object.entries(data.moviesByGenres) as [genre, movies]}
             <h2 class="text-2xl font-bold text-white mt-8 mb-4">{genre}</h2>

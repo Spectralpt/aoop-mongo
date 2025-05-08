@@ -63,10 +63,15 @@ export async function addMovie(movieData: MovieData): Promise<typeof Movie> {
 }
 
 // Fetch all theaters
-export async function getTheaters(): Promise<typeof Theater[]> {
-  return await Theater.find();
+export async function getTheaters(): Promise<TheaterData[]> {
+  try {
+    const theaters = await Theater.find().lean(); // Use .lean() to return plain JavaScript objects
+    return structuredClone(theaters); // Clone the data to avoid mutation
+  } catch (error) {
+    console.error("Error fetching theaters:", error);
+    throw new Error("Failed to fetch theaters");
+  }
 }
-
 // Update a movie by ID
 export async function updateMovie(movieId: string, updatedData: Partial<MovieData>): Promise<void> {
   await Movie.updateOne(
