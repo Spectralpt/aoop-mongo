@@ -112,3 +112,13 @@ export async function getMoviesByGenres(): Promise<Record<string, MovieData[]>> 
 
   return structuredClone(moviesByGenres);
 }
+
+export async function getMovieById(movieId: string): Promise<MovieData | null> {
+  try {
+    const movie = await Movie.findById(movieId).lean(); // Fetch the movie by ID and return as a plain object
+    return movie ? structuredClone(movie) : null; // Clone the data to avoid mutation
+  } catch (error) {
+    console.error("Error fetching movie by ID:", error);
+    throw new Error("Failed to fetch movie");
+  }
+}

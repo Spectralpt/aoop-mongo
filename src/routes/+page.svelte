@@ -1,17 +1,22 @@
 <script lang="ts">
-    let {data} = $props();
+    import AddMovies from "$lib/components/AddMovies.svelte";
+    let { data } = $props();
 
-    console.log(data)
-
+    console.log(data);
 </script>
 
 <div class="bg-gray-800 w-screen min-h-screen p-4">
     <div class="text-gray-200 text-4xl font-bold">Movies</div>
+    <AddMovies></AddMovies>
     {#if data.moviesByGenres && Object.keys(data.moviesByGenres).length > 0}
-        {#each Object.entries(data.moviesByGenres) as [genre, movies]}
-            <h2 class="text-2xl font-bold text-white mt-8 mb-4">{genre}</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {#each movies as movie}
+    {:else}
+        <p class="text-white">No movies found.</p>
+    {/if}
+    {#each Object.entries(data.moviesByGenres) as [genre, movies]}
+        <h2 class="text-2xl font-bold text-white mt-8 mb-4">{genre}</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {#each movies as movie}
+                <a href={`/movies/${movie._id}`} class="block">
                     <div class="bg-gray-900 text-white rounded-lg shadow-md p-4">
                         <img
                                 src={movie.poster || 'https://via.placeholder.com/150'}
@@ -23,10 +28,8 @@
                         <p class="text-sm mt-2"><strong>Year:</strong> {movie.year}</p>
                         <p class="text-sm"><strong>Rating:</strong> {movie.imdb?.rating || 'N/A'}</p>
                     </div>
-                {/each}
-            </div>
-        {/each}
-    {:else}
-        <p class="text-white">No movies found.</p>
-    {/if}
+                </a>
+            {/each}
+        </div>
+    {/each}
 </div>
